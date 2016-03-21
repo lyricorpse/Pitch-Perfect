@@ -25,6 +25,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         stopButton.hidden = true
     }
 
@@ -58,12 +59,12 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-        if (flag) {
+        if flag {
             recordedAudio = RecordedAudio()
             recordedAudio.filePathUrl = recorder.url
             recordedAudio.title = recorder.url.lastPathComponent
             
-            self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
+            performSegueWithIdentifier("stopRecording", sender: recordedAudio)
         } else {
             print("The recording is not successful!")
             recordButton.enabled = true

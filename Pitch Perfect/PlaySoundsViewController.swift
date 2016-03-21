@@ -30,24 +30,29 @@ class PlaySoundsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    func playAudioWithVariableRate(playRate: Float!) {
+    func audioStop() {
         audioPlayer.stop()
-        audioPlayer.rate = playRate
         audioPlayer.currentTime = 0.0
+        audioEngine.stop()
+        audioEngine.reset()
+    }
+    
+    
+    func playAudioWithVariableRate(rate: Float!) {
+        audioStop()
+        
+        audioPlayer.rate = rate
         audioPlayer.play()
     }
     
-    func playAudioWithVariablePitch(playPitch: Float!) {
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
+    func playAudioWithVariablePitch(pitch: Float!) {
+        audioStop()
         
         let audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
         
         let changePitchEffect = AVAudioUnitTimePitch()
-        changePitchEffect.pitch = playPitch
+        changePitchEffect.pitch = pitch
         audioEngine.attachNode(changePitchEffect)
         
         audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
@@ -76,8 +81,7 @@ class PlaySoundsViewController: UIViewController {
     }
     
     @IBAction func stopPlay(sender: UIButton) {
-        audioPlayer.stop()
-        audioPlayer.currentTime = 0.0
+        audioStop()
     }
 
 }
